@@ -17,3 +17,9 @@ export PATH="$PYENV_ROOT/bin:$PATH"
 if command -v pyenv 1>/dev/null 2>&1; then
 eval "$(pyenv init -)"
 fi
+
+gi() {
+    curl -sLw "\n" "https://www.toptal.com/developers/gitignore/api/$@" | 
+    sed '1,3d' | 
+    sed -n -e :a -e '1,3!{P;N;D;};N;ba'
+}
