@@ -4,7 +4,7 @@ function parse_git_branch() {
   git branch 2> /dev/null | sed -n -e "s/^\* \(.*\)/[\1] /p"
 }
 setopt PROMPT_SUBST
-export PROMPT="%B%F{9}%n:%f %F{15}%~%f %F{39}$(parse_git_branch)%f> %f%b"
+export PROMPT="%B%F{9}%n@%m:%f %F{15}%~%f %F{39}$(parse_git_branch)%f> %f%b"
 
 # The next line updates PATH for the Google Cloud SDK.
 if [ -f "$HOME/google-cloud-sdk/path.zsh.inc" ]; then . "$HOME/google-cloud-sdk/path.zsh.inc"; fi
