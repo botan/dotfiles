@@ -15,9 +15,23 @@ gi() {
     sed -n -e :a -e '1,3!{P;N;D;};N;ba'
 }
 
-function parse_git_branch() {
-  git branch 2> /dev/null | sed -n -e "s/^\* \(.*\)/[\1] /p"
+# Enable substitution in the prompt.
+setopt prompt_subst
+
+# Autoload vcs_info function
+autoload -Uz vcs_info
+
+# Explicitly define precmd
+precmd() {
+    vcs_info
+    PROMPT="%B%F{9}%n@%m:%f %F{15}%~%f${vcs_info_msg_0_}%f%b > "
 }
 
-setopt PROMPT_SUBST
-export PROMPT="%B%F{9}%n@%m:%f %F{15}%~%f %F{39}$(parse_git_branch)%f> %f%b"
+# VCS Info Configuration
+zstyle ':vcs_info:*' enable git
+zstyle ':vcs_info:*' check-for-changes true
+zstyle ':vcs_info:*' unstagedstr ' *'
+zstyle ':vcs_info:*' stagedstr ' +'
+zstyle ':vcs_info:git:*' formats       ' %F{39}[%b%u%c]%f'
+zstyle ':vcs_info:git:*' actionformats ' %F{39}[%b|%a%u%c]%f'
+
