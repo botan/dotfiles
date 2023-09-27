@@ -1,24 +1,10 @@
 if (interactive()) {
+  suppressMessages(require(conflicted))
   suppressMessages(require(reprex))
-}
-
-if (interactive()) {
   suppressMessages(require(devtools))
-}
-
-if (interactive()) {
   suppressMessages(require(usethis))
-}
-
-if (interactive()) {
   suppressMessages(require(pak))
-}
-
-if (interactive()) {
   suppressMessages(require(gert))
-}
-
-if (interactive()) {
   suppressMessages(require(clipr))
 }
 
