@@ -37,3 +37,33 @@ zstyle ':vcs_info:*' stagedstr ' +'
 zstyle ':vcs_info:git:*' formats       ' %F{39}[%b%u%c]%f'
 zstyle ':vcs_info:git:*' actionformats ' %F{39}[%b|%a%u%c]%f'
 
+rstudio() {
+    if [[ -f .Rversion ]]; then
+        R_LOCAL=$(cat .Rversion)
+        echo "Using version from .Rversion: $R_LOCAL"
+    elif [[ -f renv.lock ]]; then
+        R_LOCAL=$(grep "\"Version\"" renv.lock | sed -E 's/.*: "([0-9]+\.[0-9]+)\..*/\1/')
+        echo "Using version from renv.lock: $R_LOCAL"
+    else
+        echo "Warning: Neither .Rversion nor renv.lock found."
+        R_LOCAL=$(rig default | awk '{print $1}' | cut -d'-' -f1)
+        echo "Default version $R_LOCAL is used."
+    fi
+    
+    if rig list | grep -q "${R_LOCAL}-arm64"; then
+        echo "Version ${R_LOCAL} is available."
+    else
+        echo "Warning: Version ${R_LOCAL} is not installed."
+        R_LOCAL=$(rig default | awk '{print $1}' | cut -d'-' -f1)
+        echo "Default version $R_LOCAL is used."
+    fi
+
+    export RSTUDIO_WHICH_R="/Library/Frameworks/R.framework/Versions/${R_LOCAL}-arm64/Resources/R"
+    RPROJ_FILE=$(ls | grep ".Rproj")
+
+    if [[ -n $RPROJ_FILE ]]; then
+        open "$RPROJ_FILE"
+    else
+        echo "Warning: No .Rproj file found!"
+    fi
+}
