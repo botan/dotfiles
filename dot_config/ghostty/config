@@ -1,0 +1,16 @@
+font-size = 18
+
+theme = Rose Pine
+selection-foreground = e0def4
+selection-background = 403d52
+
+window-height = 50
+window-width = 200
+
+quit-after-last-window-closed = true
+
+quick-terminal-position = top
+
+cursor-style-blink = true
+
+shell-integration-features = sudo
